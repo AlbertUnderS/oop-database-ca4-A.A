@@ -52,4 +52,24 @@ public class ExpenseDAO {
         }
         return total;
     }
+    public void addExpense(String title, String category, double amount, Date dateIncurred) {
+        String query = "INSERT INTO expenses (title, category, amount, dateIncurred) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, title);
+            stmt.setString(2, category);
+            stmt.setDouble(3, amount);
+            stmt.setDate(4, new java.sql.Date(dateIncurred.getTime())); // Convert java.util.Date to java.sql.Date
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("✅ Expense added successfully!");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

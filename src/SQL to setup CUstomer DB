@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS customers;
+
+
+CREATE TABLE customers(CUSTOMER_ID int NOT NULL AUTO_INCREMENT,
+             FIRST_NAME VARCHAR(20),
+             LAST_NAME VARCHAR(50),
+             DATE_OF_BIRTH date,
+			 PRIMARY KEY (CUSTOMER_ID));
+
+
+
+INSERT INTO customers VALUES (101, 'Tom', 'Brady', '2018-11-11' );
+INSERT INTO customers VALUES (107, 'Mary', 'Reilly', '2019-6-12');
+INSERT INTO customers VALUES (105, 'James', 'Ryan', '2019-9-23');
+INSERT INTO customers VALUES (106, 'Alice', 'O''Brien', '2019-12-1');

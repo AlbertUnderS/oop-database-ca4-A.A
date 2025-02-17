@@ -74,4 +74,50 @@ public class IncomeDAO {
         }
     }
 
+    public void deleteIncomeById(int incomeID) {
+        String query = "DELETE FROM income WHERE incomeID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, incomeID);
+            int rowsDeleted = pstmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("✅ Income record deleted successfully!");
+            } else {
+                System.out.println("⚠ No income record found with that ID.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("❌ Error deleting income record.");
+        }
+    }
+
+    public List<Income> getIncomeByMonth(int year, int month) {
+        List<Income> incomeList = new ArrayList<>();
+        String query = "SELECT * FROM income WHERE YEAR(dateEarned) = ? AND MONTH(dateEarned) = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, year);
+            pstmt.setInt(2, month);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                incomeList.add(new Income(
+                        rs.getInt("incomeID"),
+                        rs.getString("title"),
+                        rs.getDouble("amount"),
+                        rs.getDate("dateEarned")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error retrieving income for the selected month.");
+        }
+        return incomeList;
+    }
+
 }

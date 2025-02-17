@@ -65,7 +65,7 @@ public class ExpenseDAO {
 
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("✅ Expense added successfully!");
+                System.out.println("Expense added successfully!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -81,13 +81,40 @@ public class ExpenseDAO {
             int rowsDeleted = stmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("✅ Expense deleted successfully!");
+                System.out.println("Expense deleted successfully!");
             } else {
-                System.out.println("❌ No expense found with ID: " + expenseID);
+                System.out.println("No expense found with ID: " + expenseID);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public List<Expense> getExpensesByMonth(int year, int month) {
+        List<Expense> expenses = new ArrayList<>();
+        String query = "SELECT * FROM expenses WHERE YEAR(dateIncurred) = ? AND MONTH(dateIncurred) = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, year);
+            pstmt.setInt(2, month);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                expenses.add(new Expense(
+                        rs.getInt("expenseID"),
+                        rs.getString("title"),
+                        rs.getString("category"),
+                        rs.getDouble("amount"),
+                        rs.getDate("dateIncurred")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error retrieving expenses for the selected month.");
+        }
+        return expenses;
     }
 
 }

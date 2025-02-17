@@ -71,5 +71,23 @@ public class ExpenseDAO {
             ex.printStackTrace();
         }
     }
+    public void deleteExpenseById(int expenseID) {
+        String query = "DELETE FROM expenses WHERE expenseID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, expenseID);
+            int rowsDeleted = stmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("✅ Expense deleted successfully!");
+            } else {
+                System.out.println("❌ No expense found with ID: " + expenseID);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }

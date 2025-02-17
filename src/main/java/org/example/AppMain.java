@@ -64,7 +64,14 @@ public class AppMain {
                 System.out.println("❌ Error adding expense. Please check your input and try again.");
             }
         }
+        System.out.print("\n🗑 Do you want to delete an expense? (yes/no): ");
+        String deleteChoice = scanner.nextLine();
 
+        if (deleteChoice.equalsIgnoreCase("yes")) {
+            System.out.print("Enter the ID of the expense to delete: ");
+            int expenseID = Integer.parseInt(scanner.nextLine());
+            expenseDAO.deleteExpenseById(expenseID);
+        }
         scanner.close();
     }
 }

@@ -66,11 +66,11 @@ public class IncomeDAO {
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("✅ Income record added successfully!");
+                System.out.println("Income record added successfully!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("❌ Error inserting income record.");
+            System.out.println("Error inserting income record.");
         }
     }
 
@@ -84,13 +84,13 @@ public class IncomeDAO {
             int rowsDeleted = pstmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("✅ Income record deleted successfully!");
+                System.out.println(" Income record deleted successfully!");
             } else {
-                System.out.println("⚠ No income record found with that ID.");
+                System.out.println(" No income record found with that ID.");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("❌ Error deleting income record.");
+            System.out.println(" Error deleting income record.");
         }
     }
 
